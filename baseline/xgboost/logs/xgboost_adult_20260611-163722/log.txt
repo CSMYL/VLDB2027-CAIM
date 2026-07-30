@@ -1,0 +1,6 @@
+2026-06-11 16:37:22,860 Dataset: adult  Task: classification  CSV: G:\¿ÆÑÐ\ICDE2027-CAIM-master\CAIM_code\raw_data\adult.csv
+2026-06-11 16:37:22,860 n_folds=2  random_state=42  test_size=0.2
+2026-06-11 16:37:23,303 Fold_1 AUC===>adult==> 0.9237
+2026-06-11 16:37:23,497 Fold_2 AUC===>adult==> 0.9230
+2026-06-11 16:37:23,498 Mean 2-fold AUC===>adult==> 0.9234 ¡À 0.0004
+2026-06-11 16:37:23,500 Results saved to logs\xgboost_adult_20260611-163722\results.csv

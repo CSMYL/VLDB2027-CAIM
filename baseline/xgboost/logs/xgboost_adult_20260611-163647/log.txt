@@ -1,0 +1,2 @@
+2026-06-11 16:36:47,990 Dataset: adult  Task: classification  CSV: G:\¿ÆÑÐ\ICDE2027-CAIM-master\CAIM_code\raw_data\adult.csv
+2026-06-11 16:36:47,990 n_folds=2  random_state=42  test_size=0.2

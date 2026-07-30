@@ -1,0 +1,6 @@
+2026-06-11 16:36:32,277 Dataset: diamonds  Task: regression  CSV: G:\¿ÆÑÐ\ICDE2027-CAIM-master\CAIM_code\raw_data\diamonds.csv
+2026-06-11 16:36:32,277 n_folds=2  random_state=42  test_size=0.2
+2026-06-11 16:36:32,968 Fold_1 RMSE===>diamonds==> 0.1407
+2026-06-11 16:36:33,552 Fold_2 RMSE===>diamonds==> 0.1428
+2026-06-11 16:36:33,553 Mean 2-fold RMSE===>diamonds==> 0.1417 ¡À 0.0010
+2026-06-11 16:36:33,565 Results saved to logs\xgboost_diamonds_20260611-163632\results.csv

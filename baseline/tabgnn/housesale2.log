@@ -1,0 +1,187 @@
+==========================================
+TabGNN GPU训练
+==========================================
+数据集: housesale
+训练轮数: 50
+批次大小: 256
+隐藏层维度: 128
+GNN层数: 3
+设备: cuda:1
+==========================================
+
+============================================================
+GNN模型训练
+============================================================
+数据集: housesale
+模型: GCN
+训练轮数: 50
+批次大小: 256
+隐藏层维度: 128
+GNN层数: 3
+============================================================
+
+任务类型: regression
+
+1. 加载数据集: housesale
+   ✓ 数据集加载成功，共 30138 个样本
+   ✓ 连接键: ['feature1', 'feature2', 'feature3', 'feature4', 'feature5', 'feature6', 'feature7', 'feature8', 'feature9', 'feature10', 'feature11', 'feature12', 'feature13', 'feature14', 'feature15', 'feature16', 'feature17', 'feature18', 'feature19', 'feature20', 'feature21', 'feature22', 'feature23', 'feature24', 'feature25', 'feature26', 'feature27', 'feature28', 'feature29', 'feature30', 'feature31', 'feature32', 'feature33', 'feature34', 'feature35', 'feature36']
+   ✓ 训练集: 24110 个样本
+   ✓ 测试集: 6028 个样本
+
+2. 创建数据加载器
+   [DEBUG] 创建collator...
+   [DEBUG] Collator创建成功（device=cuda:1），创建DataLoader...
+   [DEBUG] pin_memory=False (collator_device=cuda:1, device=cuda:1)
+   ✓ 数据加载器创建成功，训练集batch数: 95, 测试集batch数: 24
+
+3. 初始化模型
+   ✓ 模型初始化成功
+   ✓ 模型参数数量: 163,771
+
+4. 开始训练（50个epoch）
+  Batch 20/95: Loss=0.3949, Acc=0.0000
+  Batch 40/95: Loss=0.3745, Acc=0.0000
+  Batch 60/95: Loss=0.3611, Acc=0.0000
+  Batch 80/95: Loss=0.3494, Acc=0.0000
+Epoch 1/50: Train Loss: 0.3448 (7.83min) | Test Loss: 0.0293, Test RMSE: 0.1705 (0.89min) *
+  Batch 20/95: Loss=0.3187, Acc=0.0000
+  Batch 40/95: Loss=0.3008, Acc=0.0000
+  Batch 60/95: Loss=0.2921, Acc=0.0000
+  Batch 80/95: Loss=0.2841, Acc=0.0000
+Epoch 2/50: Train Loss: 0.2801 (7.87min) | Test Loss: 0.0284, Test RMSE: 0.1675 (0.90min) *
+  Batch 20/95: Loss=0.2560, Acc=0.0000
+  Batch 40/95: Loss=0.2546, Acc=0.0000
+  Batch 60/95: Loss=0.2564, Acc=0.0000
+  Batch 80/95: Loss=0.2537, Acc=0.0000
+Epoch 3/50: Train Loss: 0.2507 (7.88min) | Test Loss: 0.0236, Test RMSE: 0.1528 (0.91min) *
+  Batch 20/95: Loss=0.2309, Acc=0.0000
+  Batch 40/95: Loss=0.2302, Acc=0.0000
+  Batch 60/95: Loss=0.2290, Acc=0.0000
+  Batch 80/95: Loss=0.2272, Acc=0.0000
+Epoch 4/50: Train Loss: 0.2262 (7.94min) | Test Loss: 0.0215, Test RMSE: 0.1457 (0.90min) *
+  Batch 20/95: Loss=0.2093, Acc=0.0000
+  Batch 40/95: Loss=0.2117, Acc=0.0000
+  Batch 60/95: Loss=0.2150, Acc=0.0000
+  Batch 80/95: Loss=0.2141, Acc=0.0000
+Epoch 5/50: Train Loss: 0.2133 (7.90min) | Test Loss: 0.0188, Test RMSE: 0.1360 (0.90min) *
+  Batch 20/95: Loss=0.1993, Acc=0.0000
+  Batch 40/95: Loss=0.2023, Acc=0.0000
+  Batch 60/95: Loss=0.2004, Acc=0.0000
+  Batch 80/95: Loss=0.1974, Acc=0.0000
+Epoch 6/50: Train Loss: 0.1989 (7.54min) | Test Loss: 0.0172, Test RMSE: 0.1302 (0.87min) *
+  Batch 20/95: Loss=0.1890, Acc=0.0000
+  Batch 40/95: Loss=0.1909, Acc=0.0000
+  Batch 60/95: Loss=0.1903, Acc=0.0000
+  Batch 80/95: Loss=0.1887, Acc=0.0000
+Epoch 7/50: Train Loss: 0.1888 (7.53min) | Test Loss: 0.0196, Test RMSE: 0.1392 (0.86min)
+  Batch 20/95: Loss=0.1898, Acc=0.0000
+  Batch 40/95: Loss=0.1870, Acc=0.0000
+  Batch 60/95: Loss=0.1814, Acc=0.0000
+  Batch 80/95: Loss=0.1794, Acc=0.0000
+Epoch 8/50: Train Loss: 0.1777 (7.89min) | Test Loss: 0.0152, Test RMSE: 0.1226 (0.88min) *
+  Batch 20/95: Loss=0.1762, Acc=0.0000
+  Batch 40/95: Loss=0.1737, Acc=0.0000
+  Batch 60/95: Loss=0.1737, Acc=0.0000
+  Batch 80/95: Loss=0.1723, Acc=0.0000
+Epoch 9/50: Train Loss: 0.1704 (8.41min) | Test Loss: 0.0139, Test RMSE: 0.1169 (1.00min) *
+  Batch 20/95: Loss=0.1569, Acc=0.0000
+  Batch 40/95: Loss=0.1579, Acc=0.0000
+  Batch 60/95: Loss=0.1629, Acc=0.0000
+  Batch 80/95: Loss=0.1604, Acc=0.0000
+Epoch 10/50: Train Loss: 0.1596 (8.20min) | Test Loss: 0.0116, Test RMSE: 0.1070 (0.86min) *
+  Batch 20/95: Loss=0.1514, Acc=0.0000
+  Batch 40/95: Loss=0.1543, Acc=0.0000
+  Batch 60/95: Loss=0.1523, Acc=0.0000
+  Batch 80/95: Loss=0.1516, Acc=0.0000
+Epoch 11/50: Train Loss: 0.1519 (8.62min) | Test Loss: 0.0115, Test RMSE: 0.1065 (1.13min) *
+  Batch 20/95: Loss=0.1407, Acc=0.0000
+  Batch 40/95: Loss=0.1424, Acc=0.0000
+  Batch 60/95: Loss=0.1423, Acc=0.0000
+  Batch 80/95: Loss=0.1430, Acc=0.0000
+Epoch 12/50: Train Loss: 0.1439 (9.50min) | Test Loss: 0.0116, Test RMSE: 0.1071 (1.10min)
+  Batch 20/95: Loss=0.1470, Acc=0.0000
+  Batch 40/95: Loss=0.1451, Acc=0.0000
+  Batch 60/95: Loss=0.1434, Acc=0.0000
+  Batch 80/95: Loss=0.1429, Acc=0.0000
+Epoch 13/50: Train Loss: 0.1417 (9.58min) | Test Loss: 0.0115, Test RMSE: 0.1068 (1.15min)
+  Batch 20/95: Loss=0.1478, Acc=0.0000
+  Batch 40/95: Loss=0.1409, Acc=0.0000
+  Batch 60/95: Loss=0.1376, Acc=0.0000
+  Batch 80/95: Loss=0.1379, Acc=0.0000
+Epoch 14/50: Train Loss: 0.1376 (10.03min) | Test Loss: 0.0101, Test RMSE: 0.1003 (1.22min) *
+  Batch 20/95: Loss=0.1302, Acc=0.0000
+  Batch 40/95: Loss=0.1276, Acc=0.0000
+  Batch 60/95: Loss=0.1258, Acc=0.0000
+  Batch 80/95: Loss=0.1278, Acc=0.0000
+Epoch 15/50: Train Loss: 0.1273 (9.69min) | Test Loss: 0.0080, Test RMSE: 0.0891 (1.12min) *
+  Batch 20/95: Loss=0.1396, Acc=0.0000
+  Batch 40/95: Loss=0.1339, Acc=0.0000
+  Batch 60/95: Loss=0.1328, Acc=0.0000
+  Batch 80/95: Loss=0.1331, Acc=0.0000
+Epoch 16/50: Train Loss: 0.1333 (9.74min) | Test Loss: 0.0081, Test RMSE: 0.0898 (1.14min)
+  Batch 20/95: Loss=0.1262, Acc=0.0000
+  Batch 40/95: Loss=0.1273, Acc=0.0000
+  Batch 60/95: Loss=0.1240, Acc=0.0000
+  Batch 80/95: Loss=0.1210, Acc=0.0000
+Epoch 17/50: Train Loss: 0.1209 (9.62min) | Test Loss: 0.0084, Test RMSE: 0.0917 (1.17min)
+  Batch 20/95: Loss=0.1198, Acc=0.0000
+  Batch 40/95: Loss=0.1162, Acc=0.0000
+  Batch 60/95: Loss=0.1151, Acc=0.0000
+  Batch 80/95: Loss=0.1178, Acc=0.0000
+Epoch 18/50: Train Loss: 0.1167 (9.46min) | Test Loss: 0.0073, Test RMSE: 0.0850 (1.11min) *
+  Batch 20/95: Loss=0.1096, Acc=0.0000
+  Batch 40/95: Loss=0.1114, Acc=0.0000
+  Batch 60/95: Loss=0.1091, Acc=0.0000
+  Batch 80/95: Loss=0.1098, Acc=0.0000
+Epoch 19/50: Train Loss: 0.1116 (9.58min) | Test Loss: 0.0069, Test RMSE: 0.0828 (1.13min) *
+  Batch 20/95: Loss=0.1127, Acc=0.0000
+  Batch 40/95: Loss=0.1121, Acc=0.0000
+  Batch 60/95: Loss=0.1125, Acc=0.0000
+  Batch 80/95: Loss=0.1128, Acc=0.0000
+Epoch 20/50: Train Loss: 0.1110 (9.58min) | Test Loss: 0.0057, Test RMSE: 0.0751 (1.11min) *
+  Batch 20/95: Loss=0.1137, Acc=0.0000
+  Batch 40/95: Loss=0.1079, Acc=0.0000
+  Batch 60/95: Loss=0.1085, Acc=0.0000
+  Batch 80/95: Loss=0.1075, Acc=0.0000
+Epoch 21/50: Train Loss: 0.1079 (9.62min) | Test Loss: 0.0059, Test RMSE: 0.0764 (1.11min)
+  Batch 20/95: Loss=0.1078, Acc=0.0000
+  Batch 40/95: Loss=0.1058, Acc=0.0000
+  Batch 60/95: Loss=0.1071, Acc=0.0000
+  Batch 80/95: Loss=0.1098, Acc=0.0000
+Epoch 22/50: Train Loss: 0.1089 (9.50min) | Test Loss: 0.0042, Test RMSE: 0.0649 (1.12min) *
+  Batch 20/95: Loss=0.1032, Acc=0.0000
+  Batch 40/95: Loss=0.1038, Acc=0.0000
+  Batch 60/95: Loss=0.1033, Acc=0.0000
+  Batch 80/95: Loss=0.1035, Acc=0.0000
+Epoch 23/50: Train Loss: 0.1031 (9.64min) | Test Loss: 0.0048, Test RMSE: 0.0691 (1.12min)
+  Batch 20/95: Loss=0.1081, Acc=0.0000
+  Batch 40/95: Loss=0.1071, Acc=0.0000
+  Batch 60/95: Loss=0.1057, Acc=0.0000
+  Batch 80/95: Loss=0.1053, Acc=0.0000
+Epoch 24/50: Train Loss: 0.1045 (9.64min) | Test Loss: 0.0039, Test RMSE: 0.0627 (1.18min) *
+  Batch 20/95: Loss=0.0959, Acc=0.0000
+  Batch 40/95: Loss=0.0948, Acc=0.0000
+  Batch 60/95: Loss=0.0957, Acc=0.0000
+  Batch 80/95: Loss=0.0961, Acc=0.0000
+Epoch 25/50: Train Loss: 0.0958 (10.08min) | Test Loss: 0.0051, Test RMSE: 0.0715 (1.13min)
+  Batch 20/95: Loss=0.0937, Acc=0.0000
+  Batch 40/95: Loss=0.0933, Acc=0.0000
+  Batch 60/95: Loss=0.0969, Acc=0.0000
+  Batch 80/95: Loss=0.0962, Acc=0.0000
+Epoch 26/50: Train Loss: 0.0950 (9.78min) | Test Loss: 0.0038, Test RMSE: 0.0618 (1.13min) *
+  Batch 20/95: Loss=0.0958, Acc=0.0000
+  Batch 40/95: Loss=0.0934, Acc=0.0000
+  Batch 60/95: Loss=0.0919, Acc=0.0000
+  Batch 80/95: Loss=0.0920, Acc=0.0000
+Epoch 27/50: Train Loss: 0.0915 (9.67min) | Test Loss: 0.0039, Test RMSE: 0.0627 (1.11min)
+  Batch 20/95: Loss=0.0918, Acc=0.0000
+  Batch 40/95: Loss=0.0932, Acc=0.0000
+  Batch 60/95: Loss=0.0915, Acc=0.0000
+  Batch 80/95: Loss=0.0910, Acc=0.0000
+Epoch 28/50: Train Loss: 0.0904 (8.15min) | Test Loss: 0.0042, Test RMSE: 0.0650 (0.90min)
+  Batch 20/95: Loss=0.0856, Acc=0.0000
+  Batch 40/95: Loss=0.0859, Acc=0.0000
+  Batch 60/95: Loss=0.0867, Acc=0.0000
+  Batch 80/95: Loss=0.0867, Acc=0.0000
+Epoch 29/50: Train Loss: 0.0866 (7.83min) | Test Loss: 0.0035, Test RMSE: 0.0587 (0.90min) *
+  Batch 20/95: Loss=0.0887, Acc=0.0000

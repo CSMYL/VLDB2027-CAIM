@@ -1,0 +1,182 @@
+import os
+import time
+import argparse
+
+import torch
+from torch import nn
+import torch.backends.cudnn as cudnn
+from torch import optim
+
+from data_loader import libsvm_dataloader
+
+from models.model_utils import create_model
+from utils.utils import logger, remove_logger, AverageMeter, timeSince
+from utils.utils import roc_auc_compute_fn
+from tensorboardX import SummaryWriter
+
+def get_args():
+    parser = argparse.ArgumentParser(description='ARMOR framework')
+    parser.add_argument('--exp_name', default='test', type=str, help='exp name for log & checkpoint')
+    # model config
+    parser.add_argument('--model', default='armnet', type=str, help='model type, afn, arm etc')
+    parser.add_argument('--nfeat', type=int, default=5500, help='the number of features')
+    parser.add_argument('--nfield', type=int, default=10, help='the number of fields')
+    parser.add_argument('--nemb', type=int, default=10, help='embedding size')
+    parser.add_argument('--k', type=int, default=3, help='interaction order for hofm/dcn/cin/gcn/gat/xdfm')
+    parser.add_argument('--h', type=int, default=600, help='afm/cin/afn/armnet/gcn/gat hidden features/neurons')
+    parser.add_argument('--nlayer', type=int, default=2, help='the number of mlp layers')
+    parser.add_argument('--mlp_hid', type=int, default=300, help='mlp hidden units')
+    parser.add_argument('--dropout', default=0.0, type=float, help='dropout rate')
+    parser.add_argument('--nattn_head', type=int, default=4, help='the number of attention heads, gat/armnet')
+    # for AFN/ARMNet
+    parser.add_argument('--ensemble', action='store_true', default=False, help='to ensemble with DNNs')
+    parser.add_argument('--dnn_nlayer', type=int, default=2, help='the number of mlp layers')
+    parser.add_argument('--dnn_hid', type=int, default=300, help='mlp hidden units')
+    parser.add_argument('--alpha', default=1.7, type=float, help='entmax alpha to control sparsity')
+    # optimizer
+    parser.add_argument('--epoch', type=int, default=100, help='number of maximum epochs')
+    parser.add_argument('--patience', type=int, default=1, help='number of epochs for stopping training')
+    parser.add_argument('--batch_size', type=int, default=4096, help='batch size')
+    parser.add_argument('--lr', default=0.003, type=float, help='learning rate, default 3e-3')
+    parser.add_argument('--eval_freq', type=int, default=10000, help='max number of batches to train per epoch')
+    # dataset
+    parser.add_argument('--dataset', type=str, default='frappe', help='dataset name for data_loader')
+    parser.add_argument('--data_dir', type=str, default='./data/', help='path to dataset')
+    parser.add_argument('--workers', default=4, type=int, help='number of data loading workers')
+    # log & checkpoint
+    parser.add_argument('--tensorboard_dir', default='./tensorboard/', type=str, metavar='PATH',
+                        help='path to tensorboard')
+    parser.add_argument('--report_freq', type=int, default=30, help='report frequency')
+    parser.add_argument('--seed', type=int, default=2020, help='seed for reproducibility')
+    parser.add_argument('--repeat', type=int, default=1, help='number of repeats with seeds [seed, seed+repeat)')
+    args = parser.parse_args()
+    return args
+
+def main():
+    global best_auc, start_time
+    plogger = logger('log/{}/stdout.log'.format(args.exp_name), True, True)
+    plogger.info(vars(args))
+
+    model = create_model(args, plogger)
+    # optimizer
+    opt_metric = nn.BCEWithLogitsLoss(reduction='mean')
+    if torch.cuda.is_available(): opt_metric = opt_metric.cuda()
+    optimizer = optim.Adam(model.parameters(), lr=args.lr)
+    # gradient clipping
+    # for p in model.parameters():
+    #     p.register_hook(lambda grad: torch.clamp(grad, -1., 1.))
+
+    cudnn.benchmark = True
+    patience_cnt = 0
+    for epoch in range(args.epoch):
+        plogger.info(f'Epoch [{epoch:3d}/{args.epoch:3d}]')
+
+        # train and eval
+        run(epoch, model, train_loader, opt_metric, plogger, optimizer=optimizer)
+        auc_val = run(epoch, model, val_loader, opt_metric, plogger, namespace='val')
+        auc_test = run(epoch, model, test_loader, opt_metric, plogger, namespace='test')
+
+        # record best aue and save checkpoint
+        if auc_val >= best_auc:
+            best_auc = auc_val
+            plogger.info(f'best auc: valid {auc_val:.4f}, test {auc_test:.4f}')
+        else:
+            patience_cnt += 1
+            plogger.info(f'valid {auc_val:.4f}, test {auc_test:.4f}')
+            plogger.info(f'Early stopped, {patience_cnt}-th best auc at epoch {epoch-1}')
+        if patience_cnt >= args.patience: break
+
+    plogger.info(f'Total running time: {timeSince(since=start_time)}')
+    remove_logger(plogger)
+
+#  train one epoch of train/val/test
+def run(epoch, model, data_loader, opt_metric, plogger, optimizer=None, namespace='train'):
+    if optimizer: model.train()
+    else: model.eval()
+
+    time_avg = AverageMeter()
+    loss_avg, auc_avg = AverageMeter(), AverageMeter()
+
+    timestamp = time.time()
+    for idx, input in enumerate(data_loader):
+        # print ("epoch: ", epoch)
+        # print ("idx: ", idx)
+        target = input['y']
+        if torch.cuda.is_available():
+            input['ids'] = input['ids'].cuda(non_blocking=True)
+            input['vals'] = input['vals'].cuda(non_blocking=True)
+            target = target.cuda(non_blocking=True)
+
+        if optimizer:
+            y = model(input, normalization_coefficient, (epoch==6 and idx>=47))
+            # print ("y shape: ", y.shape)
+            loss = opt_metric(y, target)
+            if idx <= 48 and idx >= 46:
+                print ("epoch: ", epoch)
+                print ("idx: ", idx)
+                print ("data loss: ", loss)
+
+            optimizer.zero_grad()
+            loss.backward()
+            ### print norm
+            if idx <= 48 and idx >= 46:
+                print ("epoch: ", epoch)
+                print ("idx: ", idx)
+                for param_name, param_data in model.named_parameters():
+                    print ("param_name: ", param_name)
+                    print ("param_data.data size: ", param_data.data.size())
+                    print ("param_data norm: ", torch.norm(param_data.data))
+                    print ("param_grad norm: ", torch.norm(param_data.grad.data))
+            ### print norm
+            optimizer.step()
+        else:
+            with torch.no_grad():
+                y = model(input, normalization_coefficient, (epoch==6 and idx>=47))
+                loss = opt_metric(y, target)
+                if idx <= 48 and idx >= 46:
+                    print ("no grad data loss: ", loss)
+        # print ("idx: ", idx)
+        # print ("y shape: ", y.shape)
+        # print ("y: ", y)
+        # print ("target shape: ", target.shape)
+        # print ("target: ", target)
+        auc = roc_auc_compute_fn(y, target)
+        loss_avg.update(loss.item(), target.size(0))
+        auc_avg.update(auc, target.size(0))
+
+        # tensorboardX
+        writer.add_scalar(f'{namespace}/auc-step', auc_avg.val, idx+len(data_loader)*epoch)
+        writer.add_scalar(f'{namespace}/loss-step', loss_avg.val, idx+len(data_loader)*epoch)
+
+        time_avg.update(time.time() - timestamp)
+        timestamp = time.time()
+        if idx % args.report_freq == 0:
+            plogger.info(f'Epoch [{epoch:3d}/{args.epoch:3d}][{idx:3d}/{len(data_loader):3d}]\t'
+                         f'{time_avg.val:.3f} ({time_avg.avg:.3f})\t'
+                         f'AUC {auc_avg.val:4f} ({auc_avg.avg:4f})\t'
+                         f'Loss {loss_avg.val:8.4f} ({loss_avg.avg:8.4f})')
+
+        # stop training current epoch for evaluation
+        if idx >= args.eval_freq: break
+
+    plogger.info(f'{namespace}\tTime {timeSince(s=time_avg.sum):>12s}\t'
+                 f'AUC {auc_avg.avg:8.4f}\tLoss {loss_avg.avg:8.4f}')
+    writer.add_scalar(f'{namespace}/auc-epoch', auc_avg.avg, epoch)
+    writer.add_scalar(f'{namespace}/loss-epoch', loss_avg.avg, epoch)
+    writer.flush()
+    return auc_avg.avg
+
+# init global variables, load dataset
+args = get_args()
+train_loader, val_loader, test_loader = libsvm_dataloader(args)
+print ("training dataset size: ", len(train_loader.dataset))
+normalization_coefficient = float(1 * 1 * len(train_loader.dataset))  # labelnum * seqnum * trainnum
+print ("normalization_coefficient (not multiplying # labels + two times average: attention instance-wise): ", normalization_coefficient)
+start_time, best_auc, base_exp_name = time.time(), 0., args.exp_name
+for args.seed in range(args.seed, args.seed+args.repeat):
+    torch.manual_seed(args.seed)
+    args.exp_name = f'{base_exp_name}_{args.seed}'
+    if not os.path.isdir(f'log/{args.exp_name}'): os.mkdir(f'log/{args.exp_name}')
+    writer = SummaryWriter(f'{os.path.expanduser(args.tensorboard_dir)}{args.exp_name}/')
+    main()
+    start_time, best_auc = time.time(), 0.

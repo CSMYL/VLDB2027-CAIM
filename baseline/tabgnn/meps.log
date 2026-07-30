@@ -1,0 +1,118 @@
+==========================================
+TabGNN GPU训练
+==========================================
+数据集: meps
+训练轮数: 50
+批次大小: 256
+隐藏层维度: 128
+GNN层数: 3
+设备: cuda:1
+==========================================
+
+============================================================
+GNN模型训练
+============================================================
+数据集: meps
+模型: GCN
+训练轮数: 50
+批次大小: 256
+隐藏层维度: 128
+GNN层数: 3
+============================================================
+
+任务类型: regression
+
+1. 加载数据集: meps
+   ✓ 数据集加载成功，共 48982 个样本
+   ✓ 连接键: ['feature1', 'feature5', 'feature6', 'feature7', 'feature8', 'feature9', 'feature10', 'feature11', 'feature12', 'feature13', 'feature14', 'feature15', 'feature16', 'feature17', 'feature18', 'feature19', 'feature20', 'feature21', 'feature22', 'feature23', 'feature24', 'feature25', 'feature26', 'feature27', 'feature28', 'feature29', 'feature30', 'feature31', 'feature32', 'feature33', 'feature34', 'feature35', 'feature36', 'feature37', 'feature38', 'feature39', 'feature40', 'feature41', 'feature42', 'feature43', 'feature44', 'feature45', 'feature46', 'feature47', 'feature48', 'feature49', 'feature50', 'feature51', 'feature52', 'feature53', 'feature54', 'feature55', 'feature56', 'feature57', 'feature58', 'feature59', 'feature60', 'feature61', 'feature62', 'feature63', 'feature64', 'feature65', 'feature66', 'feature67', 'feature68', 'feature69', 'feature70', 'feature71', 'feature72', 'feature73', 'feature74', 'feature75', 'feature76', 'feature77', 'feature78', 'feature79', 'feature80', 'feature81', 'feature82', 'feature83', 'feature84', 'feature85', 'feature86', 'feature87', 'feature88', 'feature89', 'feature90', 'feature91', 'feature92', 'feature93', 'feature94', 'feature95', 'feature96', 'feature97', 'feature98', 'feature99', 'feature100', 'feature101', 'feature102', 'feature103', 'feature104', 'feature105', 'feature106', 'feature107', 'feature108', 'feature109', 'feature110', 'feature111', 'feature112', 'feature113', 'feature114', 'feature115', 'feature116', 'feature117', 'feature118', 'feature119', 'feature120', 'feature121', 'feature122', 'feature123', 'feature124', 'feature125', 'feature126', 'feature127', 'feature128', 'feature129', 'feature130', 'feature131', 'feature132', 'feature133', 'feature134', 'feature135', 'feature136', 'feature137']
+   ✓ 训练集: 39185 个样本
+   ✓ 测试集: 9797 个样本
+
+2. 创建数据加载器
+   [DEBUG] 创建collator...
+   [DEBUG] Collator创建成功（device=cuda:1），创建DataLoader...
+   [DEBUG] pin_memory=False (collator_device=cuda:1, device=cuda:1)
+   ✓ 数据加载器创建成功，训练集batch数: 154, 测试集batch数: 39
+
+3. 初始化模型
+   ✓ 模型初始化成功
+   ✓ 模型参数数量: 198,340
+
+4. 开始训练（50个epoch）
+  Batch 20/154: Loss=1.0440, Acc=0.0000
+  Batch 40/154: Loss=1.0488, Acc=0.0000
+  Batch 60/154: Loss=1.0663, Acc=0.0000
+  Batch 80/154: Loss=1.1211, Acc=0.0000
+  Batch 100/154: Loss=1.1282, Acc=0.0000
+  Batch 120/154: Loss=1.1500, Acc=0.0000
+  Batch 140/154: Loss=1.1671, Acc=0.0000
+Epoch 1/50: Train Loss: 1.1453 (109.59min) | Test Loss: 0.9780, Test RMSE: 0.9365 (14.09min) *
+  Batch 20/154: Loss=1.3641, Acc=0.0000
+  Batch 40/154: Loss=1.1323, Acc=0.0000
+  Batch 60/154: Loss=1.0240, Acc=0.0000
+  Batch 80/154: Loss=1.0224, Acc=0.0000
+  Batch 100/154: Loss=1.0355, Acc=0.0000
+  Batch 120/154: Loss=1.0421, Acc=0.0000
+  Batch 140/154: Loss=1.0793, Acc=0.0000
+Epoch 2/50: Train Loss: 1.0666 (120.86min) | Test Loss: 0.9810, Test RMSE: 0.9303 (13.70min) *
+  Batch 20/154: Loss=1.0312, Acc=0.0000
+  Batch 40/154: Loss=0.9822, Acc=0.0000
+  Batch 60/154: Loss=0.9491, Acc=0.0000
+  Batch 80/154: Loss=0.9935, Acc=0.0000
+  Batch 100/154: Loss=0.9879, Acc=0.0000
+  Batch 120/154: Loss=1.0279, Acc=0.0000
+  Batch 140/154: Loss=1.0245, Acc=0.0000
+Epoch 3/50: Train Loss: 1.0232 (114.05min) | Test Loss: 0.9905, Test RMSE: 0.9278 (14.55min) *
+  Batch 20/154: Loss=0.9001, Acc=0.0000
+  Batch 40/154: Loss=1.0665, Acc=0.0000
+  Batch 60/154: Loss=1.0534, Acc=0.0000
+  Batch 80/154: Loss=1.0163, Acc=0.0000
+  Batch 100/154: Loss=0.9932, Acc=0.0000
+  Batch 120/154: Loss=0.9944, Acc=0.0000
+  Batch 140/154: Loss=0.9951, Acc=0.0000
+Epoch 4/50: Train Loss: 0.9989 (116.12min) | Test Loss: 0.9928, Test RMSE: 0.9237 (14.41min) *
+  Batch 20/154: Loss=0.9331, Acc=0.0000
+  Batch 40/154: Loss=0.9728, Acc=0.0000
+  Batch 60/154: Loss=0.9517, Acc=0.0000
+  Batch 80/154: Loss=0.9431, Acc=0.0000
+  Batch 100/154: Loss=0.9157, Acc=0.0000
+  Batch 120/154: Loss=0.9173, Acc=0.0000
+  Batch 140/154: Loss=0.9533, Acc=0.0000
+Epoch 5/50: Train Loss: 0.9697 (112.59min) | Test Loss: 0.9772, Test RMSE: 0.9108 (14.36min) *
+  Batch 20/154: Loss=1.2363, Acc=0.0000
+  Batch 40/154: Loss=0.9950, Acc=0.0000
+  Batch 60/154: Loss=0.9901, Acc=0.0000
+  Batch 80/154: Loss=0.9714, Acc=0.0000
+  Batch 100/154: Loss=0.9760, Acc=0.0000
+  Batch 120/154: Loss=0.9794, Acc=0.0000
+  Batch 140/154: Loss=0.9634, Acc=0.0000
+Epoch 6/50: Train Loss: 0.9783 (113.60min) | Test Loss: 1.0042, Test RMSE: 0.9195 (14.35min)
+  Batch 20/154: Loss=0.8516, Acc=0.0000
+  Batch 40/154: Loss=0.9400, Acc=0.0000
+  Batch 60/154: Loss=0.9127, Acc=0.0000
+  Batch 80/154: Loss=0.9964, Acc=0.0000
+  Batch 100/154: Loss=0.9870, Acc=0.0000
+  Batch 120/154: Loss=0.9600, Acc=0.0000
+  Batch 140/154: Loss=0.9238, Acc=0.0000
+Epoch 7/50: Train Loss: 1.0025 (113.90min) | Test Loss: 1.0026, Test RMSE: 0.9115 (14.37min)
+  Batch 20/154: Loss=0.9506, Acc=0.0000
+  Batch 40/154: Loss=0.9854, Acc=0.0000
+  Batch 60/154: Loss=0.9553, Acc=0.0000
+  Batch 80/154: Loss=0.9992, Acc=0.0000
+  Batch 100/154: Loss=0.9736, Acc=0.0000
+  Batch 120/154: Loss=0.9237, Acc=0.0000
+  Batch 140/154: Loss=0.9335, Acc=0.0000
+Epoch 8/50: Train Loss: 0.9130 (113.89min) | Test Loss: 1.0084, Test RMSE: 0.9037 (14.74min) *
+  Batch 20/154: Loss=0.7272, Acc=0.0000
+  Batch 40/154: Loss=0.8880, Acc=0.0000
+  Batch 60/154: Loss=0.8803, Acc=0.0000
+  Batch 80/154: Loss=0.9097, Acc=0.0000
+  Batch 100/154: Loss=0.8854, Acc=0.0000
+  Batch 120/154: Loss=0.9095, Acc=0.0000
+  Batch 140/154: Loss=0.9050, Acc=0.0000
+Epoch 9/50: Train Loss: 0.9047 (114.52min) | Test Loss: 1.0006, Test RMSE: 0.8921 (14.50min) *
+  Batch 20/154: Loss=0.9179, Acc=0.0000
+  Batch 40/154: Loss=0.8780, Acc=0.0000
+  Batch 60/154: Loss=0.8646, Acc=0.0000
+  Batch 80/154: Loss=0.8504, Acc=0.0000
+  Batch 100/154: Loss=0.8596, Acc=0.0000
